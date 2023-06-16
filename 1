@@ -1,0 +1,28 @@
+
+pragma solidity ^0.8.0;
+
+contract Whitelist {
+    mapping(address => bool) public whitelist;
+    address public owner;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function.");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function addToWhitelist(address _address) public onlyOwner {
+        whitelist[_address] = true;
+    }
+
+    function removeFromWhitelist(address _address) public onlyOwner {
+        whitelist[_address] = false;
+    }
+
+    function isWhitelisted(address _address) public view returns (bool) {
+        return whitelist[_address];
+    }
+}
